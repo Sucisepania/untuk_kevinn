@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Love for Kevin Brian</title>
+  <style>
+    body {
+      margin: 0;
+      background: #fff0f5; /* pink soft */
+      overflow: hidden;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    .center-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ff69b4;
+      font-size: 36px;
+      font-weight: bold;
+      text-shadow: 0 0 10px #ffc0cb, 0 0 20px #ffb6c1;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    
+    .center-text {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ff66b2;
+      font-size: 38px;
+      font-weight: bold;
+      text-shadow: 0 0 10px #ffc0cb, 0 0 20px #ff99cc;
+      z-index: 2;
+    }
+
+    .message {
+      position: absolute;
+      bottom: 50px;
+      width: 100%;
+      text-align: center;
+      font-size: 20px;
+      color: #ffb6c1;
+      text-shadow: 0 0 10px #fff;
+      z-index: 2;
+    }
+
+
+    #playMusic {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #ffb6c1;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ff69b4;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <!-- Teks tengah -->
+  <canvas id="canvas"></canvas>
+  <div class="center-text">Kevin Brian</div>
+
+  <!-- Tombol Play Musik -->
+  <button id="playMusic">🎵 Play Music</button>
+
+  <!-- Kata-kata manis -->
+  <div class="message" id="message"></div>
+
+  <!-- Musik Latar -->
+  <audio id="bgMusic" loop>
+    <source src="Ed Sheeran - Perfect.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const text = "I love you";
+    const points = [];
+
+    for (let t = 0; t < Math.PI * 2; t += 0.2) {
+      let x = 16 * Math.pow(Math.sin(t), 3);
+      let y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+      points.push({ t, x, y });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.translate(centerX, centerY);
+
+      for (let i = 0; i < points.length; i++) {
+        const p = points[i];
+        p.t += 0.002;
+
+        let x = 16 * Math.pow(Math.sin(p.t), 3);
+        let y = 13 * Math.cos(p.t) - 5 * Math.cos(2 * p.t) - 2 * Math.cos(3 * p.t) - Math.cos(4 * p.t);
+
+        let px = x * 20;
+        let py = -y * 20;
+
+        ctx.fillStyle = "#ff69b4";
+        ctx.font = "16px Comic Sans MS";
+        ctx.shadowColor = "#ffc0cb";
+        ctx.shadowBlur = 8;
+        ctx.fillText(text, px, py);
+      }
+
+      ctx.restore();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Musik tombol play
+    const playBtn = document.getElementById("playMusic");
+    const music = document.getElementById("bgMusic");
+
+    playBtn.addEventListener("click", () => {
+      music.play();
+      playBtn.style.display = "none";
+    });
+  </script>
+</body>
+</html>
